@@ -63,10 +63,12 @@ class JimengAPI:
     """即梦 AI API 客户端"""
 
     BASE_URL = "http://localhost:8001/v1"
-    API_KEY = "<你的sessionid>"
 
     def __init__(self, api_key=None):
-        self.api_key = api_key or self.API_KEY
+        import os
+        self.api_key = api_key or os.environ.get('JIMENG_API_KEY')
+        if not self.api_key:
+            raise ValueError("请设置环境变量 JIMENG_API_KEY 或传入 api_key 参数")
 
     def _request(self, endpoint, payload):
         """发送请求"""
